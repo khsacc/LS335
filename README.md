@@ -20,7 +20,8 @@ temperature readings continue at the normal 1 s polling interval.
 While connected, the app automatically serves
 `GET http://127.0.0.1:8767/api/v1/readings` in standalone and embedded mode.
 The JSON response contains `connected`, `timestamp` (Unix seconds),
-`temperature_a_k`, `temperature_b_k`, and `target_setpoint_k`. The two
+`temperature_a_k`, `temperature_b_k`, `target_setpoint_k`, `ramp_enabled`,
+`ramp_rate_k_per_min`, and `heater_range` (`OFF`, `LOW`, `MEDIUM`, or `HIGH`). The two
 temperatures and timestamp are `null` until the first poll. The listener
 stops on a normal disconnect. Each request reads the app's cache and makes no
 GPIB query. The server is read-only and binds to loopback only. If port 8767

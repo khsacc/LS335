@@ -256,6 +256,9 @@ class LakeShore335Backend(QObject):
         with self._dev_lock:
             connected = self._connected
             target = self._target_k if connected else None
+            ramp_enabled = self._ramp_enabled if connected else None
+            ramp_rate = self._ramp_rate_kpm if connected else None
+            heater_range = self._heater_range_idx if connected else None
         valid_sample = connected and latest is not None
 
         def finite_or_none(value):
@@ -267,6 +270,11 @@ class LakeShore335Backend(QObject):
             "temperature_a_k": finite_or_none(latest.temp_a_k) if valid_sample else None,
             "temperature_b_k": finite_or_none(latest.temp_b_k) if valid_sample else None,
             "target_setpoint_k": finite_or_none(target),
+            "ramp_enabled": ramp_enabled,
+            "ramp_rate_k_per_min": finite_or_none(ramp_rate),
+            "heater_range": (self.HEATER_RANGES[heater_range]
+                             if heater_range is not None and 0 <= heater_range < len(self.HEATER_RANGES)
+                             else None),
         }
 
     def clear_data(self) -> None:

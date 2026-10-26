@@ -15,6 +15,8 @@ class CachedReadingsTests(unittest.TestCase):
         backend = LakeShore335Backend(simulate=True)
         backend._connected = True
         backend.set_setpoint(220.0)
+        backend.set_ramp_parameter(2.5)
+        backend.set_heater_range(1)
         with backend._buf_lock:
             backend._data.append(DataPoint(123.0, 210.5, 211.2, 220.0, 1))
 
@@ -30,6 +32,9 @@ class CachedReadingsTests(unittest.TestCase):
                 "temperature_a_k": 210.5,
                 "temperature_b_k": 211.2,
                 "target_setpoint_k": 220.0,
+                "ramp_enabled": True,
+                "ramp_rate_k_per_min": 2.5,
+                "heater_range": "LOW",
             })
         finally:
             server.stop()
